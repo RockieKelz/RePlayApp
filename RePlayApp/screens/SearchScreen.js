@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Animated, Text, StyleSheet, View } from 'react-native';
+import { Animated, StyleSheet, View, FlatList, } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView } from "react-native-gesture-handler";
-import Header from '../components/Header';
-
+import { TextInput } from "react-native-paper";
+import { Feather as Icon } from "@expo/vector-icons";
+import { theme, Box, Text } from "../components/theme";
+import Header from "../components/Header";
 
 const SearchScreen= ({navigation}) =>  {
   useEffect(()=>{
@@ -25,9 +27,28 @@ const SearchScreen= ({navigation}) =>  {
         </LinearGradient>
         <View style={{paddingTop: 200, alignItems:'center', 
                           justifyContent:'center', flex:1}}>
-          <View>
-            <Text> Search Screen Page</Text>
-          </View>
+          <Box marginVertical="m">
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            ListHeaderComponent={() => 
+              <Box
+                borderRadius="s"
+                paddingHorizontal="m"
+                flexDirection="row"
+                alignItems="center"
+                backgroundColor="text"
+              >
+              <Icon name="search" color={theme.colors.primary} size={30} />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Artists, songs, or podcasts"
+              />
+              </Box> }
+            numColumns={2}
+            keyExtractor={(item, i) => item.id}
+          />
+          
+          </Box>
         </View>
       </ScrollView>
     </SafeAreaView>
