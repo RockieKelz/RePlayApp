@@ -5,19 +5,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView } from "react-native-gesture-handler";
 import Header from '../components/Header';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Alert } from '@rneui/base';
 
 const HomeScreen = ({navigation}) => {
-  const dispatch = useDispatch();
-
   useEffect(()=>{
     navigation.setOptions({
         headerShown:false
     })
   },[])
   return (
+
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <LinearGradient
@@ -29,7 +25,7 @@ const HomeScreen = ({navigation}) => {
         </LinearGradient>
         <View style={{paddingTop: 200, alignItems:'center', justifyContent:'center', flex:1}}>
           <View>
-            <Text>Library Screen</Text>
+            <Text>Home Screen Page</Text>
           </View>
         </View>
       </ScrollView>
@@ -39,3 +35,12 @@ const HomeScreen = ({navigation}) => {
 
 export default HomeScreen
 
+const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+  },
+  subContainer:{
+    paddingRight: 15,
+    paddingLeft: 15
+  }
+})
