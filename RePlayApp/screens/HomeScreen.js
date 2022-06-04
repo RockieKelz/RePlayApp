@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Animated, Text, StyleSheet, View } from 'react-native';
+import { Animated, Button, Text, StyleSheet, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView } from "react-native-gesture-handler";
 import Header from '../components/Header';
-
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Alert } from '@rneui/base';
 
 const HomeScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+
   useEffect(()=>{
     navigation.setOptions({
         headerShown:false
@@ -23,10 +27,9 @@ const HomeScreen = ({navigation}) => {
           locations={[0.01,0.2,0.3,1,1,1]} >
           <Header />
         </LinearGradient>
-        <View style={{paddingTop: 200, alignItems:'center', 
-                          justifyContent:'center', flex:1}}>
+        <View style={{paddingTop: 200, alignItems:'center', justifyContent:'center', flex:1}}>
           <View>
-            <Text> Home Screen Page</Text>
+            <Text>Library Screen</Text>
           </View>
         </View>
       </ScrollView>
@@ -36,12 +39,3 @@ const HomeScreen = ({navigation}) => {
 
 export default HomeScreen
 
-const styles = StyleSheet.create({
-  container:{
-    flex: 1,
-  },
-  subContainer:{
-    paddingRight: 15,
-    paddingLeft: 15
-  }
-})
