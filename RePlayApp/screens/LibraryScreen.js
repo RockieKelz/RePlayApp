@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Animated, Text, StyleSheet, View } from 'react-native';
+import { TouchableOpacity, Button, FlatList, StyleSheet, View, Text, Dimensions } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -13,6 +13,7 @@ const LibraryScreen= ({navigation}) => {
         headerShown:false
     })
   },[])
+  const onPress = () => {};
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -23,9 +24,21 @@ const LibraryScreen= ({navigation}) => {
           locations={[0.01,0.2,0.3,1,1,1]} >
           <Header />
         </LinearGradient>
-        <View style={{paddingTop: 200, alignItems:'center', justifyContent:'center', flex:1}}>
+        <View style={{paddingTop: 50, justifyContent:'center', flex:1}}>
+          <View style={{justifyContent:'center',  flexDirection: 'row', flex:1}}>
+          <TouchableOpacity onPress={onPress} style={styles.button} alignItems='center'>
+            <Text style={styles.buttonText}>Artists</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onPress} style={styles.button}>
+            <Text style={styles.buttonText}>Albums</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onPress} style={styles.button}>
+            <Text style={styles.buttonText}>Paylists</Text>
+          </TouchableOpacity>
+          </View>
           <View>
-            <Text>Library Screen</Text>
+            <Text style = {{paddingTop:50, paddingLeft:15, fontSize: 18,
+                  fontWeight:"bold", justifyContent:'center', flex:1}}>Library List View</Text>
           </View>
         </View>
       </ScrollView>
@@ -41,5 +54,18 @@ const LibraryScreen= ({navigation}) => {
     subContainer:{
       paddingRight: 15,
       paddingLeft: 15
-    }
+    },
+    button: {
+      backgroundColor: 'rgba(8, 148, 289, 1)',
+      padding: 18,
+      borderRadius: 10,
+      marginBottom: 10,
+      marginHorizontal: 15
+    },
+    buttonText: {
+      color: "white",
+      alignItems:'center',
+      fontSize: 18,
+      fontWeight:"bold",
+    },
   })
