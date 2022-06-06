@@ -40,7 +40,7 @@ export default function App() {
             ) : (
               <Stack.Screen
                 options={{ headerShown: false }}
-                name="Home"
+                name="TabNavigation"
                 component={TabNavigation}
               />
             )}
