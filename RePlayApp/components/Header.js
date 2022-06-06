@@ -1,16 +1,23 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
+import SettingsScreen  from "../screens/SettingsScreen"
 
-const Header = () => {
+const Header = ({ navigation }) => {
+    {/*useEffect(()=>{
+        navigation.navigate("Settings", { screen: SettingsScreen})
+      },[])*/}
     return (
         <View style={styles.topCont}>
             <View>
-                <Text style={styles.Text}>RePlay</Text>
+                <Text style={styles.Text}>  RePlay</Text>
             </View>
             <View style={styles.iconCont}>
                 <MaterialCommunityIcons style = {styles.icon} 
-                name="cog-outline" size={30} color="white" />
+                name="cog-outline" 
+                size={30} 
+                color="white" 
+                onPress={() => navigation}/>
             </View>
         </View>
     )
@@ -23,12 +30,14 @@ const styles = StyleSheet.create({
         flexDirection:"row", 
         alignItems: "center",
         paddingTop: 40,
+        paddingBottom: 20,
         justifyContent:"space-between"
     },
     Text:{
         color:"white",
-        fontSize:22,
-        fontWeight:"bold"
+        fontSize:32,
+        fontWeight:"bold",
+        lineHeight: 30,
     },
     iconCont:{
         flexDirection:"row"

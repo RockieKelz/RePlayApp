@@ -28,6 +28,7 @@ import { TextStyle, ViewStyle } from "react-native";
       m: 16,
       l: 24,
       xl: 40,
+      xxl: 75,
     },
     borderRadii: {
       s: 4,
@@ -52,16 +53,6 @@ import { TextStyle, ViewStyle } from "react-native";
         fontSize: 15,
         color: 'soil',
         fontWeight: 'bold'
-      },
-      premiumFreeText: {
-        fontSize: 14,
-        color: 'darkLight',
-        fontWeight: '600'
-      },
-      premiumCardLabel: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        color:'text'
       },
       hero: {
         fontSize: 80,
@@ -99,11 +90,6 @@ import { TextStyle, ViewStyle } from "react-native";
         alignItems: "center",
         paddingTop: 40,
       },
-      premiumCardTitle: {
-        color: 'white',
-        fontSize: 30,
-        fontWeight:'bold'
-      }
     },
     breakpoints: {},
   };
