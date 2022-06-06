@@ -31,6 +31,8 @@ const LoginScreen = ({ navigation }) => {
         "streaming",
         "user-read-email",
         "user-read-private",
+        "user-library-read",
+        "user-library-modify"
       ],
       usePKCE: false,
       redirectUri: "exp://192.168.1.27:19000/",
@@ -47,7 +49,7 @@ const LoginScreen = ({ navigation }) => {
   }, [response]);
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" , minWidth:100}}>
       <TouchableOpacity onPress={() => promptAsync()}>
         <View
           style={{
@@ -58,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
             justifyContent: "center",
           }}
         >
-          <Text>Login</Text>
+          <Text>Login With Spotify</Text>
         </View>
       </TouchableOpacity>
     </View>

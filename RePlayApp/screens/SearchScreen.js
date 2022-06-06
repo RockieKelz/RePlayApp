@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Animated, StyleSheet, View, FlatList, } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import {
+  initiateGetResult,
+  initiateLoadMoreAlbums,
+  initiateLoadMorePlaylist,
+  initiateLoadMoreArtists
+} from "../actions/result";
+import { StyleSheet, View, FlatList, } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView } from "react-native-gesture-handler";
@@ -8,8 +13,11 @@ import { TextInput } from "react-native-paper";
 import { Feather as Icon } from "@expo/vector-icons";
 import { theme, Box, Text } from "../components/theme";
 import Header from "../components/Header";
+import SearchResult from '../components/SearchResult';
+import SearchForm from '../components/SearchForm';
 
 const SearchScreen= ({navigation}) =>  {
+  
   useEffect(()=>{
     navigation.setOptions({
         headerShown:false
@@ -17,7 +25,6 @@ const SearchScreen= ({navigation}) =>  {
   },[])
   return (
   <SafeAreaView style={styles.container}>
-      <ScrollView>
         <LinearGradient
           colors={['#adff2f', '#00ffff', '#00bfff', '#0000cd','#4b0082','#800080']}
           start={{x:-0.1, y:0.2}}
@@ -25,7 +32,7 @@ const SearchScreen= ({navigation}) =>  {
           locations={[0.01,0.2,0.3,1,1,1]} >
           <Header />
         </LinearGradient>
-        <View style={{paddingTop: 200, alignItems:'center', 
+        <View style={{paddingTop: 100, alignItems:'center', 
                           justifyContent:'center', flex:1}}>
           <Box marginVertical="m">
           <FlatList
@@ -44,25 +51,29 @@ const SearchScreen= ({navigation}) =>  {
                 placeholder="Artists, songs, or podcasts"
               />
               </Box> }
-            numColumns={2}
-            keyExtractor={(item, i) => item.id}
+           numColumns={2}
+            keyExtractor={(item, i) => item.id} 
           />
-          
           </Box>
         </View>
-      </ScrollView>
     </SafeAreaView>
-  )
-}
-
-export default SearchScreen
+  );
+};
 
 const styles = StyleSheet.create({
   container:{
     flex: 1,
   },
+  searchInput: {
+    backgroundColor: theme.colors.text,
+    width: "100%",
+    fontSize: 20,
+    color: theme.colors.primary,
+    fontWeight: "bold",
+  },
   subContainer:{
     paddingRight: 15,
     paddingLeft: 15
   }
-})
+});
+export default SearchScreen
