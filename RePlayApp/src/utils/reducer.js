@@ -22,6 +22,18 @@ const reducer = (state, action) => {
         ...state,
         userInfo: action.userInfo,
       };
+      case casesReducer.SET_ALBUMS:
+      return {
+        ...state,
+        albums: action.albums,
+      };
+      case casesReducer.SET_SEARCHRESULTS:
+      return {
+        ...state,
+        artists: action.artists,
+        tracks: action.tracks,
+        albums: action.albums,
+      };
     case casesReducer.SET_PLAYLISTS:
       return {
         ...state,

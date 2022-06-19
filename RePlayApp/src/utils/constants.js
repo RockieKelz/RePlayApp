@@ -5,10 +5,19 @@ export const casesReducer ={
     ADD_ALBUMS : 'ADD_ALBUMS',
     SET_ARTISTS : 'SET_ARTISTS',
     ADD_ARTISTS : 'ADD_ARTISTS',
+    SET_TRACKS : 'SET_TRACKS',
+    ADD_TRACKS : 'ADD_TRACKS',
     SET_PLAYLIST : 'SET_PLAYLIST',
     ADD_PLAYLIST : 'ADD_PLAYLIST',
     SET_PLAYLISTS: "SET_PLAYLISTS",
     SET_PLAYLIST_ID: "SET_PLAYLIST_ID",
     SET_PLAYING: "SET_PLAYING",
     SET_PLAYER_STATE: "SET_PLAYER_STATE",
+    SET_SEARCHRESULTS: "SET_SEARCHRESULTS",
 };
+
+export const selectedPage = {
+    Home : "Home",
+    Search : "Search",
+    Library : "Library",
+}

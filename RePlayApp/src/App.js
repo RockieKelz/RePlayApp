@@ -1,6 +1,7 @@
 import './App.css';
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Search from "./pages/Search";
 import React, { useEffect } from "react";
 import { useStateProvider } from "./utils/stateprovider";
 import { casesReducer } from "./utils/constants";
