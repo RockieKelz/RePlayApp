@@ -5,14 +5,15 @@ import Sidebar from "../components/SideBar";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
 import { useStateProvider } from "../utils/stateprovider";
-import { Row, Card} from 'react-bootstrap'
+import { Row, Card } from 'react-bootstrap'
+import _ from 'lodash';
 
 const Search = (props) => {
-  /*
+  const [selectedCategory, setSelectedCategory] = useState('albums');
   const setCategory = (category) => {
     setSelectedCategory(category);
   };
-
+/*
   const loadMore = async (type) => {
     const { dispatch, albums, artists, playlist } = props;
     switch (type) {
@@ -102,7 +103,6 @@ async function GetResult(){
       dispatch({type: casesReducer.SET_PLAYLIST, data: data.data.playlist});
   
     }); 
-    console.log(albums);
   }
 
 return (
@@ -125,24 +125,114 @@ return (
               onChange = {event => setSearchInput(event.target.value)}
               />
               </div>
+
+              <div className="search-buttons">
+                  {!_.isEmpty(albums) && (
+                    <button
+                      className={`${
+                        selectedCategory === 'albums' ? 'btn active' : 'btn'
+                      }`}
+                      onClick={() => setCategory('albums')}
+                    >
+                      Albums
+                    </button>
+                  )}
+                  {!_.isEmpty(artists) && (
+                    <button
+                      className={`${
+                        selectedCategory === 'artists' ? 'btn active' : 'btn'
+                      }`}
+                      onClick={() => setCategory('artists')}
+                    >
+                      Artists
+                    </button>
+                  )}
+                  {!_.isEmpty(tracks) && (
+                    <button
+                      className={`${
+                        selectedCategory === 'tracks' ? 'btn active' : 'btn'
+                      }`}
+                      onClick={() => setCategory('tracks')}
+                    >
+                      Songs
+                    </button>
+                  )}
+                </div>
+
           </div>
-              { albums && (<>
+              
             <div className = "lowerbody">
               <Row className = "searchRows">
+              <div className={`${selectedCategory === 'albums' ? '' : 'hide'}`}>
+              { albums && (<>
                 {albums.map( (album, i) => {
                   return (
-                <Card >
-                  <Card.Img src= {album.images[0].url} />
-                  <Card.Body>
-                    <Card.Title>
+                    <React.Fragment key={i}>
+                  <Card >
+                    <a href={album.external_urls.spotify}
+                    target= "_blank"
+                    rel="noopener noreferrer"
+                    className="card-image-link"
+                  >
+                    <Card.Img src= {album.images[0].url} />
+                    <Card.Body>
+                      <Card.Title>
                       {album.name}
+                      </Card.Title>
+                    </Card.Body></a>
+                  </Card>
+                  </React.Fragment>)
+                })}
+                </>)}
+                </div>
+                <div className={`${selectedCategory === 'artists' ? '' : 'hide'}`}>
+                { artists && (<>
+                {artists.map( (artist, i) => {
+                  return (
+                    <React.Fragment key={i}>
+                  <Card >
+                    <a target="_blank"
+                    href={artist.external_urls.spotify}
+                    rel="noopener noreferrer"
+                    className="card-image-link"
+                  >
+                    <Card.Body>
+                      <Card.Title>
+                      {artist.name}
                     </Card.Title>
                   </Card.Body>
-              </Card>
+                  </a>
+                </Card>
+                </React.Fragment>
                 )})}
+                </> )}
+                </div>
+                <div className={`${selectedCategory === 'tracks' ? '' : 'hide'}`}>
+                { tracks && (<>
+                {tracks.map( (track, i) => {
+                  return (
+                    <React.Fragment key={i}>
+                  <Card >
+                    <a target="_blank"
+                    href={track.external_urls.spotify}
+                    rel="noopener noreferrer"
+                    className="card-image-link"
+                  >
+                    <Card.Body>
+                      <Card.Title>
+                      {track.name}
+                    </Card.Title>
+                  </Card.Body>
+                  </a>
+                </Card>
+                </React.Fragment>
+                )})}
+                </> )}
+                </div>
+
               </Row>
             </div>
-            </>)}
+            
           </div>
         </div>
       </Container>
@@ -242,5 +332,23 @@ const Container = styled.div`
   .card img {
     max-width: 250px;
     height: 250px;
-  }`
+  }
+  .search-buttons {
+    display: flex;
+    justify-content: center;
+    padding-left: 5rem;
+    align-items: center;
+    border-radius: 3rem;
+    margin-top: -3rem;
+  }
+  
+  .search-buttons .btn {
+    margin: 0.8rem;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    font-weight: bold;
+    color: #778298;
+  }
+  
+  `
 export default Search;
