@@ -14,6 +14,7 @@ export const casesReducer ={
     SET_PLAYING: "SET_PLAYING",
     SET_PLAYER_STATE: "SET_PLAYER_STATE",
     SET_SEARCHRESULTS: "SET_SEARCHRESULTS",
+    SET_RECENTLYPLAYED : "SET_RECENTLYPLAYED",
 };
 
 export const selectedPage = {

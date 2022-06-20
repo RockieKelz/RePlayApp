@@ -59,6 +59,11 @@ const reducer = (state, action) => {
         ...state,
         selectedPlaylistId: action.selectedPlaylistId,
       };
+    case casesReducer.SET_RECENTLYPLAYED:
+      return {
+        ...state,
+        recentlyplayed: action.recentlyplayed,
+      };     
     default:
       return state;
   }
