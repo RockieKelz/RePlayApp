@@ -161,13 +161,13 @@ return (
 
           </div>
               
-            <div className = "lowerbody">
+            <div className = "lowerbody" style={{margin: '2rem auto' }}>
               <Row className = "searchRows">
               <div className={`${selectedCategory === 'albums' ? '' : 'hide'}`}>
               { albums && (<>
-                {albums.map( (album, i) => {
+                {albums.map( (album) => {
                   return (
-                    <React.Fragment key={i}>
+                    <React.Fragment key={album.id}>
                   <Card >
                     <a href={album.external_urls.spotify}
                     target= "_blank"
@@ -187,15 +187,17 @@ return (
                 </div>
                 <div className={`${selectedCategory === 'artists' ? '' : 'hide'}`}>
                 { artists && (<>
-                {artists.map( (artist, i) => {
+                {artists.map( (artist) => {
                   return (
-                    <React.Fragment key={i}>
+                    <React.Fragment key={artist.id}>
                   <Card >
                     <a target="_blank"
                     href={artist.external_urls.spotify}
                     rel="noopener noreferrer"
                     className="card-image-link"
-                  >
+                  >{artist.images.length ?
+                    <Card.Img src= {artist.images[0].url} /> :
+                    <></>}
                     <Card.Body>
                       <Card.Title>
                       {artist.name}
@@ -209,15 +211,17 @@ return (
                 </div>
                 <div className={`${selectedCategory === 'tracks' ? '' : 'hide'}`}>
                 { tracks && (<>
-                {tracks.map( (track, i) => {
+                {tracks.map( (track) => {
                   return (
-                    <React.Fragment key={i}>
+                    <React.Fragment key={track.id}>
                   <Card >
                     <a target="_blank"
                     href={track.external_urls.spotify}
                     rel="noopener noreferrer"
                     className="card-image-link"
-                  >
+                  >{track.album.images.length ?
+                    <Card.Img src= {track.album.images[0].url} /> :
+                    <></>}
                     <Card.Body>
                       <Card.Title>
                       {track.name}
@@ -259,7 +263,6 @@ const Container = styled.div`
     height: 100%;
     width: 100%;
     overflow: auto;
-    flex-direction: column;
     &::-webkit-scrollbar {
       width: 0.7rem;
       max-height: 2rem;
@@ -269,7 +272,6 @@ const Container = styled.div`
     }
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     font-family: 'Montserrat', -apple-system, system-ui, BlinkMacSystemFont,
       'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     font-size: 20px;
@@ -309,7 +311,6 @@ const Container = styled.div`
   .searchRows {
       display: flex;
       flex-wrap: wrap;
-    width: 100%;
     margin-left: 05%;
   }
       
@@ -317,11 +318,11 @@ const Container = styled.div`
   .card {
     margin: 1rem;
     max-width: 250px;
+    height: 320px;
     box-shadow: 0 1px 1px 1px #0000ff;
   }
   
   .card .card-image-link {
-    padding: 1rem;
     text-align: center;
   }
 
@@ -349,6 +350,12 @@ const Container = styled.div`
     font-weight: bold;
     color: #778298;
   }
+  .hide {
+    display: none;
+  }
   
+  .active {
+    border: 2px solid #566273;
+  }
   `
 export default Search;
