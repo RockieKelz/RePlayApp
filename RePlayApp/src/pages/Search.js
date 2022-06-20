@@ -242,7 +242,7 @@ const Container = styled.div`
   max-width: 100vw;
   max-height: 100vh;
   overflow: hidden;
-  grid-template-rows: 90vh 15vh;
+  grid-template-rows: 85vh 15vh;
   display: grid;
   .bodyContainer {
     display: grid;

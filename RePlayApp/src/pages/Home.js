@@ -4,25 +4,38 @@ import Sidebar from "../components/SideBar";
 import styled from "styled-components";
 import { useStateProvider } from "../utils/stateprovider";
 import { casesReducer } from "../utils/constants";
+import Footer from "../components/Footer";
+import { Row, Card } from 'react-bootstrap'
 import { AiFillClockCircle } from "react-icons/ai";
 import { mainHeader } from "../pages/Header";
 import { selectedPage } from "../utils/constants"
 
 const Home = () => {
-  const [headerBackground, setHeaderBackground] = useState(false);
-  const [labelBackground, setLabelBackground] = useState(false);
-  const bodyRef = useRef();
-  const pageScrolled = () => {
-    bodyRef.current.scrollTop >= 30
-      ? setHeaderBackground(true)
-      : setHeaderBackground(false);
-    bodyRef.current.scrollTop >= 268
-    ? setLabelBackground(true)
-    : setLabelBackground(false);
-  };
-  const [{ token, selectedPlaylist, selectedPlaylistId }, dispatch] = useStateProvider();
+  const [{ token, recentlyplayed}, dispatch] = useStateProvider();
+  const [recentPlays, setRecentPlays] = useState(null);
+  
+  //get recently played tracks
+  const getUserRecentPlays = async() =>{
+  await axios.get("https://api.spotify.com/v1/me/player/recently-played?limit=10", {
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+    }).then(data => {
+    setRecentPlays([data.data.items]) 
+    console.log(data)
+    dispatch({ type: casesReducer.SET_RECENTLYPLAYED, recentlyplayed});
+    });
+    }
+    console.log(recentPlays)
+
+
   //get current user
   useEffect(() => {
+    if (recentPlays == null)
+    {
+      getUserRecentPlays();
+    }
     const getUserInfo = async () => {
       const { data } = await axios.get("https://api.spotify.com/v1/me", {
         headers: {
@@ -39,6 +52,45 @@ const Home = () => {
     };
     getUserInfo();
 
+
+  const playTrack = async (
+    id,
+    name,
+    artists,
+    image,
+    context_uri,
+    track_number
+  ) => {
+    const response = await axios.put(
+      `https://api.spotify.com/v1/me/player/play`,
+      {
+        context_uri,
+        offset: {
+          position: track_number - 1,
+        },
+        position_ms: 0,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (response.status === 204) {
+      const currentPlaying = {
+        id,
+        name,
+        artists,
+        image,
+      };
+      dispatch({ type: casesReducer.SET_PLAYING, currentPlaying });
+      dispatch({ type: casesReducer.SET_PLAYER_STATE, playerState: true });
+    } else {
+      dispatch({ type: casesReducer.SET_PLAYER_STATE, playerState: true });
+    }
+  };
+
   //get playback state for player
     const getPlaybackState = async () => {
       const { data } = await axios.get("https://api.spotify.com/v1/me/player", {
@@ -53,123 +105,54 @@ const Home = () => {
       });
     };
     getPlaybackState();
+    
 
-    //get the initially selected playlist
-    const getInitialPlaylist = async () => {
-        const response = await axios.get(
-          `https://api.spotify.com/v1/playlists/${selectedPlaylistId}`,
-          {
-            headers: {
-              Authorization: "Bearer " + token,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const selectedPlaylist = {
-          id: response.data.id,
-          name: response.data.name,
-          description: response.data.description.startsWith("<a")
-            ? ""
-            : response.data.description,
-          image: response.data.images[0].url,
-          tracks: response.data.tracks.items.map(({ track }) => ({
-            id: track.id,
-            name: track.name,
-            artists: track.artists.map((artist) => artist.name),
-            image: track.album.images[2].url,
-            duration: track.duration_ms,
-            album: track.album.name,
-            context_uri: track.album.uri,
-            track_number: track.track_number,
-          })),
-        };
-        dispatch({ type: casesReducer.SET_PLAYLIST, selectedPlaylist });
-      };
-      getInitialPlaylist();
-  }, [dispatch, token, selectedPlaylist, selectedPlaylistId ]);
-
-
+  }, [dispatch, recentlyplayed, token]);
+  
   return (
     <Container>
       <div className="bodyContainer" >
         <Sidebar />
-          <div className="body" ref={bodyRef} onScroll={pageScrolled}>
-          <mainHeader headerBackground={headerBackground} />
-          <div className="bodyContents"
-          labelBackground = {labelBackground}>
-                  { selectedPlaylist && ( <>
-                    <div className="playlist">
-                        <div className="image">
-                            <img src={selectedPlaylist.image} alt="selected playlist" />
-                        </div>
-                        <div className="details">
-                            <span className="type">PLAYLIST</span>
-                            <h1 className="title">{selectedPlaylist.name}</h1>
-                            <p className="description">{selectedPlaylist.description}</p>
-                        </div>
-                    </div>
-                    <div className="list">
-                        <div className="header-row">
-                        <div className="col">
-                            <span>#</span>
-                        </div>
-                        <div className="col">
-                            <span>TITLE</span>
-                        </div>
-                        <div className="col">
-                            <span>ALBUM</span>
-                        </div>
-                        
-                        </div>
-                    <div className="tracks">
-                      {selectedPlaylist.tracks.map(
-                        (
-                          {
-                            id,
-                            name,
-                            artists,
-                            image,
-                            duration,
-                            album,
-                            context_uri,
-                            track_number,
-                          },
-                          index
-                        ) => {
-                          return (
-                            <div className="row"
-                              key={id}
-                              onClick={( "")}
-                            >
-                              <div className="col">
-                                <span>{index + 1}</span>
-                              </div>
-                              <div className="col detail">
-                                <div className="image">
-                                  <img src={image} alt="track" />
-                                </div>
-                                <div className="info">
-                                  <span className="name">{name}</span>
-                                  <span>{artists}</span>
-                                </div>
-                              </div>
-                              <div className="col">
-                                <span>{album}</span>
-                              </div>
-                              <div className="col">
-                              </div>
-                            </div>
-                          );
-                        }
-                      )}
-                  </div>
-                </div>
-              </>
-            )}
-            </div>
-          </div>
-      </div>
+          { recentPlays && (<>
+            <div className="recent_play">
+              <h2 className="home_title">Recently Played Songs</h2>
+              <div className='mt-1 w-full'>
+							<div className="table flex justify-between w-full">
+								<div className="w-4/4 lg:w-auto flex justify-between text-gray-700 mb-4 tracking-wider text-sm border-gray-800 sticky top-0 pt-8 bg-black border-bottom">
+									<div className='w-12/12 lg:w-7/12 text-left'>TRACK</div>
+									<div className='w-4/12 hidden lg:block text-left'>ALBUM</div>
+									<div className='w-1/12 hidden lg:block text-left'>DURATION</div>
+								</div>
+					
+								<span className="inline-block w-full">
+                  
+									{recentPlays.map((song) => {
+                    return (
+										<div className="lg:flex text-gray-400 justify-between w-full object-contain" key={song.played_at}>
+											<div className="w-8/12 lg:w-7/12 truncate">
+                      <Card >
+                      <Card.Img src={[song.track.album.images[0].url]}/>
+                      <Card.Body>
+                        <Card.Title>
+                        {song.track.name} 
+                        </Card.Title>
+                        <Card.Subtitle>{song.track.artists}</Card.Subtitle>
+                         <Card.Text>{song.track.album.name}</Card.Text>
+                         </Card.Body>
+                         </Card>
+											</div>
+											<div className='w-4/12 hidden lg:block pr-4'>{song.track.album.name}</div>
+											<div className='w-1/12 hidden lg:block'>{(song.track.duration_ms)}</div>
+										</div>)
+                    })}
+                  </span>
+							</div>
+						</div>
+					</div>
+				
+                  </>)}</div>
       <div className="bodyFooter">
+        <Footer />
       </div>
     </Container>
   );
@@ -180,7 +163,7 @@ const Container = styled.div`
   max-height: 100vh;
   overflow: hidden;
   display: grid;
-  grid-template-rows: 90vh 15vh;
+  grid-template-rows: 85vh 15vh;
   .bodyContainer {
     display: grid;
     grid-template-columns: 15vw 85vw;
@@ -195,7 +178,7 @@ const Container = styled.div`
   .body {
     height: 100%;
     width: 100%;
-    overflow: auto;
+    overflow: hidden;
     &::-webkit-scrollbar {
       width: 0.7rem;
       max-height: 2rem;
