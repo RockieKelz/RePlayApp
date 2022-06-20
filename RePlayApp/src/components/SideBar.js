@@ -14,13 +14,17 @@ function SideBar() {
             <MdHomeFilled />
             <span>Home</span>
           </li>
-          <li>
+          <li to = "/search">
             <MdSearch />
             <span>Search</span>
           </li>
           <li>
             <IoLibrary />
             <span>Your Library</span>
+          </li>
+          <br/>
+          <li className = "sidebar_subtext">
+            <span>Playlists</span>
           </li>
           <div style={{ borderTop: "2px solid purple", marginLeft: 5, marginRight: 5 }}></div>
         </ul>
@@ -29,9 +33,9 @@ function SideBar() {
   );
 }
 const Container = styled.div`
-  place-items: center;
   display: flex;
   flex-direction: column;
+  max-height:84.5vh;
   height: 100%;
   width: 100%
   color: blue;
@@ -39,6 +43,7 @@ const Container = styled.div`
 }
 ul
 {
+  margin-left: 2%;
   list-style-type: none;
   display: flex;
   flex-direction: column;
@@ -49,10 +54,17 @@ ul
 li {
   display: flex;
   gap: 1rem;
+  font-weight: bold;
   cursor: pointer;
   transition: 0.3s ease-in-out;
   &:hover {
-    color: white;
+    color: white; 
+  }}
+  .sidebar_subtext {
+    margin-left: 10px;
+    paddins: 5px;
+    font-size: 18px;
+    letter-spacing: 0.1ch;
   }
 `;
 export default SideBar;

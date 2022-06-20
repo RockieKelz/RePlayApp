@@ -53,6 +53,7 @@ const Container = styled.div`
     list-style-type: none;
     display: flex;
     flex-direction: column;
+    margin-left: 5%;
     gap: 1rem;
     padding: 1rem;
     height: 65vh;
@@ -65,6 +66,7 @@ const Container = styled.div`
       }
     }
     li {
+      font-size: 15px;
       transition: 0.3s ease-in-out;
       cursor: pointer;
       &:hover {
